@@ -53,7 +53,7 @@ except json.JSONDecodeError as e:
     exit(1)
 
 PERSONALITIES = personality_data.get('personalities', {})
-PERSONALITY = 'Glitch'  # Default personality
+PERSONALITY = 'Mindbot'  # Default personality
 
 if PERSONALITY not in PERSONALITIES:
     logger.error(f"Default personality '{PERSONALITY}' not found in '{PERSONALITIES_FILE}'.")
@@ -194,8 +194,10 @@ async def entrypoint(ctx: JobContext):
     assistant = VoiceAssistant(
         vad=ctx.proc.userdata.get("vad"),
         stt=deepgram.STT(),
-        llm=openai.LLM(model="gpt-4o-mini"),  # Using a lightweight model
-        tts=openai.TTS(voice="fable"),  # Ensure 'fable' is a valid voice
+        llm=openai.LLM(base_url="https://api.groq.com/openai/v1",
+                       model="llama-3.2-90b-text-preview",
+                       api_key="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"),  # Using a lightweight model
+        tts=openai.TTS(voice="onyx"),  # Ensure 'fable' is a valid voice
         fnc_ctx=fnc_ctx,
         chat_ctx=initial_chat_ctx,
     )
